@@ -13,10 +13,10 @@ import {
 import { scroll } from "viem/chains";
 
 export const transport = fallback([
-  http(process.env.NEXT_PUBLIC_RPC_HTTP, { batch: true }),
   webSocket(process.env.NEXT_PUBLIC_RPC_WS),
-  http(undefined, { batch: true }),
   webSocket(),
+  http(process.env.NEXT_PUBLIC_RPC_HTTP, { batch: true }),
+  http(undefined, { batch: true }),
 ]);
 
 export const publicClient = createPublicClient({
