@@ -13,8 +13,12 @@ export function handleTransactionError(error: any) {
 }
 
 export function extractErrorMessages(error: any) {
+  console.dir(error);
   if (error instanceof ContractFunctionExecutionError) {
-    return { message: error.message, description: error.details };
+    return {
+      message: error.shortMessage,
+      description: error.metaMessages?.at(0),
+    };
   } else if (error instanceof TransactionExecutionError) {
     return { message: error.shortMessage, description: error.details };
   } else {
