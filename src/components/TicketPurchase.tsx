@@ -107,7 +107,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
   const { address, isConnected } = useAccount();
   const { gameId, gameState } = useCurrentGame();
   const { isActive, accruedCommunityFees } = useGameData({ gameId });
-  const { numPicks, maxBallValue, ticketPrice, prizeToken } = useGameConfig();
+  const { pickLength, maxBallValue, ticketPrice, prizeToken } = useGameConfig();
   const { refetch: refetchTickets } = useTickets({ address, gameId });
 
   const {
@@ -132,7 +132,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
       numbers: [new Set()],
       recipient: zeroAddress,
     },
-    resolver: valibotResolver(makeFieldSchema(numPicks)),
+    resolver: valibotResolver(makeFieldSchema(pickLength)),
   });
   const { fields, append, remove } = useFieldArray({
     control,
@@ -170,7 +170,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
 
       const picks = fields.numbers.map((set) => ({
         whomst: address,
-        picks: [...set].sort((a, b) => a - b),
+        pick: [...set].sort((a, b) => a - b),
       }));
 
       if (PRIZE_TOKEN_IS_NATIVE) {
@@ -238,7 +238,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
     setValue(
       "numbers",
       Array.from({ length: amount }, () =>
-        getRandomPicks(numPicks, maxBallValue)
+        getRandomPicks(pickLength, maxBallValue)
       )
     );
   }
@@ -337,8 +337,8 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
               Pick your numbers
             </h2>
             <p className="text-muted-foreground">
-              Please pick {numPicks.toLocaleString("en-US")}{" "}
-              {numPicks === 1 ? `number` : `numbers`}
+              Please pick {pickLength.toLocaleString("en-US")}{" "}
+              {pickLength === 1 ? `number` : `numbers`}
             </p>
           </header>
           <ScrollArea

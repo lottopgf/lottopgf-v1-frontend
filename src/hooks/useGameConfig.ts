@@ -16,7 +16,7 @@ export function useGameConfig() {
       {
         abi: LOOTERY_ABI,
         address: CONTRACT_ADDRESS,
-        functionName: "numPicks",
+        functionName: "pickLength",
       },
       {
         abi: LOOTERY_ABI,
@@ -43,11 +43,11 @@ export function useGameConfig() {
     staleTime: Infinity,
   });
 
-  const [maxBallValue, numPicks, gamePeriod, ticketPrice, prizeToken] = data;
+  const [maxBallValue, pickLength, gamePeriod, ticketPrice, prizeToken] = data;
 
   return {
     maxBallValue,
-    numPicks,
+    pickLength,
     gamePeriod,
     ticketPrice,
     prizeToken,

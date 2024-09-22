@@ -153,6 +153,11 @@ export const LOOTERY_ABI = [
   },
   {
     inputs: [],
+    name: "EmptyDisplayName",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "FailedInnerCall",
     type: "error",
   },
@@ -226,6 +231,11 @@ export const LOOTERY_ABI = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "InvalidFeeShares",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -250,11 +260,22 @@ export const LOOTERY_ABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "numPicks",
+        name: "maxBallValue",
         type: "uint256",
       },
     ],
-    name: "InvalidNumPicks",
+    name: "InvalidMaxBallValue",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "pickLength",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidPickLength",
     type: "error",
   },
   {
@@ -318,19 +339,8 @@ export const LOOTERY_ABI = [
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "pickId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "winningPickId",
-        type: "uint256",
-      },
-    ],
-    name: "NoWin",
+    inputs: [],
+    name: "NoTicketsSpecified",
     type: "error",
   },
   {
@@ -375,22 +385,6 @@ export const LOOTERY_ABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "requestId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    name: "RequestAlreadyInFlight",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
         name: "actual",
         type: "uint256",
       },
@@ -428,17 +422,6 @@ export const LOOTERY_ABI = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "TicketsSoldOverflow",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -464,11 +447,6 @@ export const LOOTERY_ABI = [
         name: "actual",
         type: "uint8",
       },
-      {
-        internalType: "enum ILootery.GameState",
-        name: "expected",
-        type: "uint8",
-      },
     ],
     name: "UnexpectedState",
     type: "error",
@@ -476,12 +454,23 @@ export const LOOTERY_ABI = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+    ],
+    name: "UnknownBeneficiary",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint8[]",
-        name: "picks",
+        name: "pick",
         type: "uint8[]",
       },
     ],
-    name: "UnsortedPicks",
+    name: "UnsortedPick",
     type: "error",
   },
   {
@@ -494,6 +483,25 @@ export const LOOTERY_ABI = [
     ],
     name: "WaitLonger",
     type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "AccruedCommunityFeesWithdrawn",
+    type: "event",
   },
   {
     anonymous: false,
@@ -550,6 +558,25 @@ export const LOOTERY_ABI = [
     inputs: [
       {
         indexed: true,
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "displayName",
+        type: "string",
+      },
+    ],
+    name: "BeneficiaryAdded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
         internalType: "uint256",
         name: "gameId",
         type: "uint256",
@@ -568,6 +595,32 @@ export const LOOTERY_ABI = [
       },
     ],
     name: "BeneficiaryPaid",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+    ],
+    name: "BeneficiaryRemoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newCallbackGasLimit",
+        type: "uint256",
+      },
+    ],
+    name: "CallbackGasLimitSet",
     type: "event",
   },
   {
@@ -618,25 +671,6 @@ export const LOOTERY_ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "gameId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint8[]",
-        name: "winningPicks",
-        type: "uint8[]",
-      },
-    ],
-    name: "GameFinalised",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: true,
         internalType: "address",
         name: "to",
@@ -648,26 +682,27 @@ export const LOOTERY_ABI = [
         name: "value",
         type: "uint256",
       },
+    ],
+    name: "ExcessRefunded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
       {
         indexed: false,
         internalType: "uint256",
-        name: "gasUsed",
+        name: "gameId",
         type: "uint256",
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "gasPrice",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "bool",
-        name: "success",
-        type: "bool",
+        internalType: "uint8[]",
+        name: "winningPick",
+        type: "uint8[]",
       },
     ],
-    name: "GasRefundAttempted",
+    name: "GameFinalised",
     type: "event",
   },
   {
@@ -743,6 +778,44 @@ export const LOOTERY_ABI = [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "uint256",
+        name: "pickId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "winningPickId",
+        type: "uint256",
+      },
+    ],
+    name: "NoWin",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "OperationalFundsWithdrawn",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "address",
         name: "previousOwner",
@@ -756,6 +829,44 @@ export const LOOTERY_ABI = [
       },
     ],
     name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "ProtocolFeePaid",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint208",
+        name: "requestId",
+        type: "uint208",
+      },
+      {
+        indexed: false,
+        internalType: "uint48",
+        name: "timestamp",
+        type: "uint48",
+      },
+    ],
+    name: "RandomnessRequested",
     type: "event",
   },
   {
@@ -801,7 +912,7 @@ export const LOOTERY_ABI = [
       {
         indexed: false,
         internalType: "uint8[]",
-        name: "picks",
+        name: "pick",
         type: "uint8[]",
       },
     ],
@@ -885,7 +996,7 @@ export const LOOTERY_ABI = [
   },
   {
     inputs: [],
-    name: "accruedCommunityFees",
+    name: "PROTOCOL_FEE_BPS",
     outputs: [
       {
         internalType: "uint256",
@@ -898,7 +1009,7 @@ export const LOOTERY_ABI = [
   },
   {
     inputs: [],
-    name: "apocalypseGameId",
+    name: "accruedCommunityFees",
     outputs: [
       {
         internalType: "uint256",
@@ -947,6 +1058,56 @@ export const LOOTERY_ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "beneficiaries",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "addresses",
+        type: "address[]",
+      },
+      {
+        internalType: "string[]",
+        name: "names",
+        type: "string[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+    ],
+    name: "beneficiaryDisplayNames",
+    outputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "callbackGasLimit",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -955,7 +1116,13 @@ export const LOOTERY_ABI = [
       },
     ],
     name: "claimWinnings",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "prizeShare",
+        type: "uint256",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -1004,11 +1171,11 @@ export const LOOTERY_ABI = [
         type: "uint256",
       },
     ],
-    name: "computePicks",
+    name: "computePick",
     outputs: [
       {
         internalType: "uint8[]",
-        name: "picks",
+        name: "pick",
         type: "uint8[]",
       },
     ],
@@ -1023,7 +1190,7 @@ export const LOOTERY_ABI = [
         type: "uint256",
       },
     ],
-    name: "computeWinningBalls",
+    name: "computeWinningPick",
     outputs: [
       {
         internalType: "uint8[]",
@@ -1056,7 +1223,20 @@ export const LOOTERY_ABI = [
     inputs: [],
     name: "draw",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "factory",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1121,6 +1301,19 @@ export const LOOTERY_ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getRequestPrice",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         components: [
@@ -1141,7 +1334,7 @@ export const LOOTERY_ABI = [
           },
           {
             internalType: "uint8",
-            name: "numPicks",
+            name: "pickLength",
             type: "uint8",
           },
           {
@@ -1198,6 +1391,19 @@ export const LOOTERY_ABI = [
     name: "init",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isApocalypseMode",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1297,13 +1503,24 @@ export const LOOTERY_ABI = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "numPicks",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "gameId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "pickId",
+        type: "uint256",
+      },
+    ],
+    name: "numWinnersInGame",
     outputs: [
       {
-        internalType: "uint8",
+        internalType: "uint256",
         name: "",
-        type: "uint8",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -1352,7 +1569,7 @@ export const LOOTERY_ABI = [
           },
           {
             internalType: "uint8[]",
-            name: "picks",
+            name: "pick",
             type: "uint8[]",
           },
         ],
@@ -1364,6 +1581,19 @@ export const LOOTERY_ABI = [
     name: "ownerPick",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pickLength",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1390,7 +1620,7 @@ export const LOOTERY_ABI = [
           },
           {
             internalType: "uint8[]",
-            name: "picks",
+            name: "pick",
             type: "uint8[]",
           },
         ],
@@ -1621,6 +1851,48 @@ export const LOOTERY_ABI = [
     inputs: [
       {
         internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "displayName",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isBeneficiary",
+        type: "bool",
+      },
+    ],
+    name: "setBeneficiary",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "didMutate",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newCallbackGasLimit",
+        type: "uint256",
+      },
+    ],
+    name: "setCallbackGasLimit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "renderer",
         type: "address",
       },
@@ -1731,6 +2003,19 @@ export const LOOTERY_ABI = [
         internalType: "string",
         name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",

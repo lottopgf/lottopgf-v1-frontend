@@ -10,7 +10,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { AlertTriangleIcon, Loader2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { type Hex } from "viem";
+import { encodeFunctionData, hexToBigInt, type Hex } from "viem";
 import { simulateContract } from "viem/actions";
 import {
   useAccount,
@@ -57,7 +57,7 @@ export function RoundEndAlert({
                   (log) => log.eventName === "GameFinalised"
                 );
                 if (!log) return;
-                const numbers = log.args.winningPicks;
+                const numbers = log.args.winningPick;
                 if (!numbers) return;
 
                 resolve({
@@ -115,11 +115,33 @@ export function RoundEndAlert({
     if (!client) return;
 
     try {
+      const { maxFeePerGas, maxPriorityFeePerGas } =
+        await client.estimateFeesPerGas({
+          chain: CHAIN,
+          type: "eip1559",
+        });
+
+      // give me ethers or give me death
+      const { data: _requestPrice } = await client.call({
+        to: CONTRACT_ADDRESS,
+        data: encodeFunctionData({
+          abi: LOOTERY_ABI,
+          functionName: "getRequestPrice",
+        }),
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+      });
+      const requestPrice = hexToBigInt(_requestPrice!);
+
+      // 2x in case of gas price fluctuation; excess will be refunded
+      const valueToSend = requestPrice * 2n;
+
       const response = await simulateContract(client, {
         chain: CHAIN,
         abi: LOOTERY_ABI,
         address: CONTRACT_ADDRESS,
         functionName: "draw",
+        value: valueToSend,
       });
 
       // Set a minimum gas limit of 200,000

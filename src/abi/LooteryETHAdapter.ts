@@ -45,7 +45,7 @@ export const LOOTERY_ETH_ADAPTER_ABI = [
           },
           {
             internalType: "uint8[]",
-            name: "picks",
+            name: "pick",
             type: "uint8[]",
           },
         ],

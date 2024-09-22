@@ -27,7 +27,7 @@ export function NumberPicker({
   name: `numbers.${number}`;
   onRemove?: (index: number) => void;
 }) {
-  const { numPicks, maxBallValue } = useGameConfig();
+  const { pickLength, maxBallValue } = useGameConfig();
 
   return (
     <Controller
@@ -38,7 +38,7 @@ export function NumberPicker({
         fieldState: { error },
         formState: { errors },
       }) => {
-        const disabled = value.size === numPicks;
+        const disabled = value.size === pickLength;
         return (
           <Card className={cn(error && "border-destructive")}>
             <CardHeader>
@@ -93,7 +93,9 @@ export function NumberPicker({
                 type="button"
                 size="sm"
                 variant="outline"
-                onClick={() => onChange(getRandomPicks(numPicks, maxBallValue))}
+                onClick={() =>
+                  onChange(getRandomPicks(pickLength, maxBallValue))
+                }
                 className="gap-2"
               >
                 <DicesIcon size="1em" /> Randomize numbers

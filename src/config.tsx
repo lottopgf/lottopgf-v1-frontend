@@ -31,11 +31,11 @@ export const PRIZE_TOKEN_IS_NATIVE = true;
 
 // The contract address of the lottery
 export const CONTRACT_ADDRESS: Address =
-  "0x5096e81b883e9DeF82c21D5ebC666541a5354fc7";
+  "0x09BFa081ad54C0EfdAC38CE0c6681A9B8618C432";
 
 // The address of the ETH adapter contract
 export const LOOTERY_ETH_ADAPTER_ADDRESS: Address =
-  "0xeF25bdE35653f89229fe37b9F7d82484B8c47e4F";
+  "0xB95C75a28019be64e62863E2C9dc48D0dea8b5cc";
 
 // The URL of the GraphQL API to get ticket data
 export const GRAPHQL_API =

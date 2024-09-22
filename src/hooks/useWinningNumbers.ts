@@ -4,14 +4,14 @@ import request, { gql } from "graphql-request";
 import type { Address } from "viem";
 
 const winningNumbersQuery = gql`
-  query winningPicks($lotteryId: String!, $gameId: String!) {
+  query winningPick($lotteryId: String!, $gameId: String!) {
     lootery(id: $lotteryId) {
       id
       games(where: { id: $gameId }) {
         items {
           id
           gameId
-          winningPicks
+          winningPick
         }
       }
     }
@@ -22,7 +22,7 @@ interface WinningNumbersData {
   lootery: {
     games: {
       items: {
-        winningPicks: number[];
+        winningPick: number[];
       }[];
     };
   } | null;
@@ -49,7 +49,7 @@ export function useWinningNumbers({
     },
   });
 
-  const numbers = data?.lootery?.games.items.at(0)?.winningPicks;
+  const numbers = data?.lootery?.games.items.at(0)?.winningPick;
 
   return {
     ...rest,

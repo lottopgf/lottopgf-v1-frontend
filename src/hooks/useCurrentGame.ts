@@ -6,8 +6,14 @@ import { readContractQueryOptions } from "wagmi/query";
 
 // See Lootery contract
 export enum GameState {
+  /** Unitialised state, i.e. before the `init` function has been called */
+  Uninitialised,
+  /** This is the only state where the jackpot can increase */
   Purchase,
+  /** Waiting for VRF fulfilment */
   DrawPending,
+  /** Lootery is closed (forever) */
+  Dead,
 }
 
 export function useCurrentGame() {
