@@ -4,7 +4,7 @@ import { useGameData } from "@/hooks/useGameData";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { isAddressEqual, zeroAddress, type Address } from "viem";
 import { useConfig } from "wagmi";
-import { hashFn, readContractsQueryOptions } from "wagmi/query";
+import { readContractsQueryOptions } from "wagmi/query";
 
 export function useTicketClaimStatuses({
   address,
@@ -15,7 +15,7 @@ export function useTicketClaimStatuses({
   ticketIds: bigint[];
   gameId: bigint;
 }) {
-  const { winningPickId, apocalypseGameId, isApocalypse } = useGameData({
+  const { winningPickId, isApocalypse, isActive } = useGameData({
     gameId,
   });
   const config = useConfig();
@@ -52,21 +52,20 @@ export function useTicketClaimStatuses({
   const claimStatuses = ticketIds.reduce(
     (_, tokenId, index) => {
       const owner = ticketOwnerData.at(index)?.result;
-      const ticketGameId = ticketPickIdData.at(index)?.result?.[0];
       const pickId = ticketPickIdData.at(index)?.result?.[1];
 
       const isOwner = !!address && !!owner && isAddressEqual(owner, address);
       const hasBeenClaimed = !!owner && isAddressEqual(owner, zeroAddress);
-      const isApocalypseWinner =
-        isApocalypse && ticketGameId === apocalypseGameId - 1n;
+      const isApocalypseConsolationWinner =
+        isApocalypse && !isActive && winningPickId !== pickId;
       const isJackpotWinner = pickId === winningPickId;
-      const isWinner = isApocalypseWinner || isJackpotWinner;
+      const isWinner = isApocalypseConsolationWinner || isJackpotWinner;
 
       return _.set(tokenId, {
         isOwner,
         hasBeenClaimed,
         isWinner,
-        isApocalypseWinner,
+        isApocalypseWinner: isApocalypseConsolationWinner,
         isJackpotWinner,
       });
     },

@@ -105,7 +105,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
                   <div className="flex gap-6 items-center justify-between">
                     <div className="space-y-4">
                       <CardTitle>Ticket #{ticket.tokenId}</CardTitle>
-                      <NumbersList numbers={ticket.picks} />
+                      <NumbersList numbers={ticket.pick} />
                       {ticket.claimStatus?.hasBeenClaimed ? (
                         <p className="text-muted-foreground">Claimed</p>
                       ) : (

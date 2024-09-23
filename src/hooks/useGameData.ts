@@ -23,7 +23,7 @@ export function useGameData({
       {
         abi: LOOTERY_ABI,
         address: CONTRACT_ADDRESS,
-        functionName: "apocalypseGameId",
+        functionName: "isApocalypseMode",
       },
       {
         abi: LOOTERY_ABI,
@@ -57,7 +57,7 @@ export function useGameData({
 
   const [
     jackpot,
-    apocalypseGameId,
+    isApocalypseMode,
     isActive,
     roundDuration,
     gameData,
@@ -66,8 +66,6 @@ export function useGameData({
 
   const [ticketsSold, startedAt, winningPickId] = gameData;
 
-  const isApocalypse =
-    apocalypseGameId !== 0n && apocalypseGameId - 1n === gameId;
   const roundEndTime = startedAt + roundDuration;
   const roundHasEnded = BigInt(getNowInSeconds()) > roundEndTime;
 
@@ -77,8 +75,7 @@ export function useGameData({
     startedAt,
     winningPickId,
     isActive,
-    isApocalypse,
-    apocalypseGameId,
+    isApocalypse: isApocalypseMode,
     roundDuration,
     roundEndTime,
     roundHasEnded,

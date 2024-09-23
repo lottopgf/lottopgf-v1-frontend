@@ -8,7 +8,7 @@ const ticketsQuery = gql`
     tickets(where: { whomstId: $whomst, gameId: $gameId }) {
       items {
         tokenId
-        picks
+        pick
       }
     }
   }
@@ -18,7 +18,7 @@ interface TicketsData {
   tickets: {
     items: {
       tokenId: string;
-      picks: number[];
+      pick: number[];
     }[];
   };
 }
