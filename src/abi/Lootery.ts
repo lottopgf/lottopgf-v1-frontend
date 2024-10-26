@@ -29,6 +29,17 @@ export const LOOTERY_ABI = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "AlreadyClaimed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "caller",
         type: "address",
@@ -215,11 +226,6 @@ export const LOOTERY_ABI = [
     type: "error",
   },
   {
-    inputs: [],
-    name: "InsufficientRandomWords",
-    type: "error",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -340,7 +346,33 @@ export const LOOTERY_ABI = [
   },
   {
     inputs: [],
+    name: "NoRandomnessRequestInFlight",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NoTicketsSold",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "NoTicketsSpecified",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "pickId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "winningPickId",
+        type: "uint256",
+      },
+    ],
+    name: "NoWin",
     type: "error",
   },
   {
@@ -371,6 +403,11 @@ export const LOOTERY_ABI = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "PrizeTokenWithdrawalNotAllowed",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -379,6 +416,11 @@ export const LOOTERY_ABI = [
       },
     ],
     name: "RateLimited",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ReentrancyGuardReentrantCall",
     type: "error",
   },
   {
@@ -508,6 +550,19 @@ export const LOOTERY_ABI = [
     inputs: [
       {
         indexed: true,
+        internalType: "uint256",
+        name: "gameId",
+        type: "uint256",
+      },
+    ],
+    name: "ApocalypseModeActivated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
         internalType: "address",
         name: "owner",
         type: "address",
@@ -558,25 +613,6 @@ export const LOOTERY_ABI = [
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "beneficiary",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "displayName",
-        type: "string",
-      },
-    ],
-    name: "BeneficiaryAdded",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
         internalType: "uint256",
         name: "gameId",
         type: "uint256",
@@ -608,6 +644,25 @@ export const LOOTERY_ABI = [
       },
     ],
     name: "BeneficiaryRemoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "displayName",
+        type: "string",
+      },
+    ],
+    name: "BeneficiarySet",
     type: "event",
   },
   {
@@ -778,25 +833,6 @@ export const LOOTERY_ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "pickId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "winningPickId",
-        type: "uint256",
-      },
-    ],
-    name: "NoWin",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: true,
         internalType: "address",
         name: "to",
@@ -859,12 +895,6 @@ export const LOOTERY_ABI = [
         name: "requestId",
         type: "uint208",
       },
-      {
-        indexed: false,
-        internalType: "uint48",
-        name: "timestamp",
-        type: "uint48",
-      },
     ],
     name: "RandomnessRequested",
     type: "event",
@@ -917,6 +947,19 @@ export const LOOTERY_ABI = [
       },
     ],
     name: "TicketPurchased",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "renderer",
+        type: "address",
+      },
+    ],
+    name: "TicketSVGRendererSet",
     type: "event",
   },
   {
@@ -1127,30 +1170,6 @@ export const LOOTERY_ABI = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "gameId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "claimedWinningTickets",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "communityFeeBps",
     outputs: [
@@ -1237,6 +1256,13 @@ export const LOOTERY_ABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "forceRedraw",
+    outputs: [],
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1444,6 +1470,25 @@ export const LOOTERY_ABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "isWinningsClaimed",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "jackpot",
     outputs: [
@@ -1509,6 +1554,25 @@ export const LOOTERY_ABI = [
         name: "gameId",
         type: "uint256",
       },
+    ],
+    name: "numClaimedWinningTickets",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "gameId",
+        type: "uint256",
+      },
       {
         internalType: "uint256",
         name: "pickId",
@@ -1556,31 +1620,6 @@ export const LOOTERY_ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "whomst",
-            type: "address",
-          },
-          {
-            internalType: "uint8[]",
-            name: "pick",
-            type: "uint8[]",
-          },
-        ],
-        internalType: "struct ILootery.Ticket[]",
-        name: "tickets",
-        type: "tuple[]",
-      },
-    ],
-    name: "ownerPick",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -1702,12 +1741,12 @@ export const LOOTERY_ABI = [
         type: "uint256",
       },
       {
-        internalType: "uint256[]",
-        name: "randomWords",
-        type: "uint256[]",
+        internalType: "uint256",
+        name: "randomWord",
+        type: "uint256",
       },
     ],
-    name: "receiveRandomWords",
+    name: "receiveRandomness",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1879,19 +1918,6 @@ export const LOOTERY_ABI = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "newCallbackGasLimit",
-        type: "uint256",
-      },
-    ],
-    name: "setCallbackGasLimit",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "renderer",
         type: "address",
@@ -2055,6 +2081,19 @@ export const LOOTERY_ABI = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "typeAndVersion",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "pure",
     type: "function",
   },
   {
