@@ -7,6 +7,7 @@ import { Providers } from "@/lib/providers";
 import { cn } from "@/lib/utils";
 import { wagmiConfig } from "@/lib/wagmi";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import { cookieToInitialState } from "wagmi";
@@ -27,20 +28,27 @@ export default async function RootLayout({
 }>) {
   const initialState = cookieToInitialState(
     wagmiConfig,
-    (await headers()).get("cookie"),
+    (await headers()).get("cookie")
   );
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, "leading-7")}>
-        <Providers initialState={initialState}>
-          <Header />
-          <main className="w-full px-4 mx-auto max-w-[48.875rem]">
-            {children}
-          </main>
-          <Toaster />
-          <SupportedChainCheck />
-        </Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers initialState={initialState}>
+            <Header />
+            <main className="w-full px-4 mx-auto max-w-[48.875rem]">
+              {children}
+            </main>
+            <Toaster />
+            <SupportedChainCheck />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

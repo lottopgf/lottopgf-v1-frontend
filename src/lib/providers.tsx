@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { ThemeProvider, useTheme } from "next-themes";
+import { useTheme } from "next-themes";
 import { useLayoutEffect, type ReactNode } from "react";
 import { WagmiProvider, type State } from "wagmi";
 import { hashFn } from "wagmi/query";
@@ -59,22 +59,17 @@ export function Providers({
   const { resolvedTheme } = useTheme();
 
   useLayoutEffect(() => {
-    web3Modal.setThemeMode("dark" === resolvedTheme ? "dark" : "light");
+    if (resolvedTheme !== undefined) {
+      web3Modal.setThemeMode("dark" === resolvedTheme ? "dark" : "light");
+    }
   }, [resolvedTheme]);
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <WagmiProvider config={wagmiConfig} initialState={initialState}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </WagmiProvider>
-    </ThemeProvider>
+    <WagmiProvider config={wagmiConfig} initialState={initialState}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
