@@ -28,7 +28,7 @@ export default async function RootLayout({
 }>) {
   const initialState = cookieToInitialState(
     wagmiConfig,
-    (await headers()).get("cookie")
+    (await headers()).get("cookie"),
   );
 
   return (

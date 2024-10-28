@@ -417,7 +417,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                 <Button asChild>
                   <Link
                     target="_blank"
-                    href="https://relay.link/bridge/scroll?amount=0.002&currency=eth&tradeType=EXACT_OUTPUT&lockToChain=true&lockCurrency=true"
+                    href="https://relay.link/bridge/scroll?fromChainId=1&amount=0.01&currency=eth&tradeType=EXACT_OUTPUT&lockToChain=true&lockCurrency=true"
                   >
                     Bridge to {CHAIN.name} using relay
                   </Link>
