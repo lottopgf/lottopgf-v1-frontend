@@ -18,6 +18,7 @@ import { useCurrentGame } from "@/hooks/useCurrentGame";
 import { useGameData } from "@/hooks/useGameData";
 import { useTickets } from "@/hooks/useTickets";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import Countdown, { type CountdownRendererFn } from "react-countdown";
 import { useAccount } from "wagmi";
 
@@ -110,10 +111,10 @@ export function LotteryStats() {
         <Card>
           <CardHeader>
             <CardDescription>Jackpot</CardDescription>
-            <CardTitle className="">
-              <span className="text-3xl sm:text-5xl font-extrabold">
+            <CardTitle>
+              <DetailsCardTitle>
                 <Amount value={jackpot} decimals={PRIZE_TOKEN_DECIMALS} />
-              </span>{" "}
+              </DetailsCardTitle>{" "}
               <span className="text-base text-muted-foreground">
                 {PRIZE_TOKEN_TICKER}
               </span>
@@ -125,9 +126,9 @@ export function LotteryStats() {
           <CardHeader>
             <CardDescription>Tickets in this draw</CardDescription>
             <CardTitle>
-              <span className="text-3xl sm:text-5xl font-extrabold">
+              <DetailsCardTitle>
                 {ticketsSold.toLocaleString("en-US")}
-              </span>
+              </DetailsCardTitle>
             </CardTitle>
           </CardHeader>
         </Card>
@@ -136,12 +137,12 @@ export function LotteryStats() {
           <CardHeader>
             <CardDescription>Draw in</CardDescription>
             <CardTitle>
-              <span className="text-3xl sm:text-5xl font-extrabold">
+              <DetailsCardTitle>
                 <Countdown
                   renderer={renderer}
                   date={Number(roundEndTime) * 1000}
                 />
-              </span>
+              </DetailsCardTitle>
             </CardTitle>
           </CardHeader>
         </Card>
@@ -150,9 +151,7 @@ export function LotteryStats() {
           <CardHeader>
             <CardDescription>Your tickets</CardDescription>
             <CardTitle className="flex justify-between items-end">
-              <span className="text-3xl sm:text-5xl font-extrabold">
-                {numberOfTickets}
-              </span>{" "}
+              <DetailsCardTitle>{numberOfTickets}</DetailsCardTitle>{" "}
               <Link href="/tickets" className="text-green-500 text-base">
                 View your tickets &gt;
               </Link>
@@ -236,5 +235,13 @@ export function LotteryStatsSkeleton() {
         </Card>
       </div>
     </div>
+  );
+}
+
+function DetailsCardTitle({ children }: { children: ReactNode }) {
+  return (
+    <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
+      {children}
+    </span>
   );
 }
