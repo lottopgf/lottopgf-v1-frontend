@@ -30,6 +30,7 @@ import { GameState, useCurrentGame } from "@/hooks/useCurrentGame";
 import { useGameConfig } from "@/hooks/useGameConfig";
 import { useGameData } from "@/hooks/useGameData";
 import { useTickets } from "@/hooks/useTickets";
+import { makeBridgeUrl } from "@/lib/bridge";
 import { extractErrorMessages, handleTransactionError } from "@/lib/error";
 import { getRandomPicks } from "@/lib/random";
 import { cn } from "@/lib/utils";
@@ -64,6 +65,7 @@ import {
   getAddress,
   isAddress,
   isAddressEqual,
+  parseEther,
   zeroAddress,
   type Address,
   type Hex,
@@ -417,7 +419,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                 <Button asChild>
                   <Link
                     target="_blank"
-                    href="https://relay.link/bridge/scroll?fromChainId=1&amount=0.01&currency=eth&tradeType=EXACT_OUTPUT&lockToChain=true&lockCurrency=true"
+                    href={makeBridgeUrl(parseEther("0.01"))}
                   >
                     Bridge to {CHAIN.name} using relay
                   </Link>
