@@ -54,7 +54,7 @@ export function RoundEndAlert({
               eventName: "GameFinalised",
               onLogs(logs) {
                 const log = logs.find(
-                  (log) => log.eventName === "GameFinalised"
+                  (log) => log.eventName === "GameFinalised",
                 );
                 if (!log) return;
                 const numbers = log.args.winningPick;
@@ -70,7 +70,7 @@ export function RoundEndAlert({
                 reject(error);
               },
             });
-          }
+          },
         ),
         {
           loading: "Waiting for the draw to complete…",
@@ -82,7 +82,7 @@ export function RoundEndAlert({
                   e.preventDefault();
                   window.open(
                     `${CHAIN.blockExplorers.default.url}/tx/${hash}`,
-                    "_blank"
+                    "_blank",
                   );
                 },
               }
@@ -90,7 +90,7 @@ export function RoundEndAlert({
           description: ({ hash, numbers }) =>
             numbers ? `The numbers are ${numbers.join(" ")}.` : undefined,
           error: "Error",
-        }
+        },
       );
     }
   }, [client, gameState, hash]);
@@ -158,7 +158,7 @@ export function RoundEndAlert({
             e.preventDefault();
             window.open(
               `${CHAIN.blockExplorers.default.url}/tx/${hash}`,
-              "_blank"
+              "_blank",
             );
           },
         },

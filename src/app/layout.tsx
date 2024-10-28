@@ -17,18 +17,17 @@ export const metadata: Metadata = {
   title: METADATA.name,
   description: METADATA.description,
   icons: METADATA.icon,
+  metadataBase: new URL(METADATA.url),
 };
 
-export default async function RootLayout(
-  {
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>
-) {
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const initialState = cookieToInitialState(
     wagmiConfig,
-    (await headers()).get("cookie")
+    (await headers()).get("cookie"),
   );
 
   return (

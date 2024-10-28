@@ -81,16 +81,16 @@ const makeFieldSchema = (numbersCount: number) =>
     recipient: pipe(
       string(),
       check((value) => isAddress(value)),
-      transform((value) => getAddress(value))
+      transform((value) => getAddress(value)),
     ),
     numbers: pipe(
       array(
         pipe(
           set(number()),
-          size(numbersCount, `You have to select ${numbersCount} numbers.`)
-        )
+          size(numbersCount, `You have to select ${numbersCount} numbers.`),
+        ),
       ),
-      minLength(1, "You must select at least 1 ticket.")
+      minLength(1, "You must select at least 1 ticket."),
     ),
   });
 
@@ -204,7 +204,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
             e.preventDefault();
             window.open(
               `${CHAIN.blockExplorers.default.url}/tx/${hash}`,
-              "_blank"
+              "_blank",
             );
           },
         },
@@ -227,7 +227,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
           addTicketRef.current.offsetWidth +
           (addTicketRef.current.parentElement
             ? parseFloat(
-                getComputedStyle(addTicketRef.current.parentElement).gap
+                getComputedStyle(addTicketRef.current.parentElement).gap,
               )
             : 0);
       }
@@ -238,8 +238,8 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
     setValue(
       "numbers",
       Array.from({ length: amount }, () =>
-        getRandomPicks(pickLength, maxBallValue)
-      )
+        getRandomPicks(pickLength, maxBallValue),
+      ),
     );
   }
 
@@ -297,7 +297,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                       disabled={isAddressEqual(zeroAddress, recipient)}
                       className={cn(
                         "w-full",
-                        isAddressEqual(zeroAddress, recipient) && "opacity-50"
+                        isAddressEqual(zeroAddress, recipient) && "opacity-50",
                       )}
                       type="button"
                       onClick={() => setValue("recipient", zeroAddress)}

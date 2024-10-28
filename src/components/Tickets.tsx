@@ -180,7 +180,7 @@ function useTicketsWithClaimStatus({
   });
 
   const hasWon = !!ticketsWithClaimStatus?.some(
-    (ticket) => ticket.claimStatus?.isWinner
+    (ticket) => ticket.claimStatus?.isWinner,
   );
 
   return {

@@ -68,7 +68,7 @@ export function useBalanceWithAllowance({
               e.preventDefault();
               window.open(
                 `${CHAIN.blockExplorers.default.url}/tx/${hash}`,
-                "_blank"
+                "_blank",
               );
             },
           },
@@ -93,7 +93,7 @@ export function useBalanceWithAllowance({
   const { isFetching: isWaitingForConfirmation } = useWaitForTransactionReceipt(
     {
       hash,
-    }
+    },
   );
 
   const { data: nativeBalanceData } = useBalance({ address });

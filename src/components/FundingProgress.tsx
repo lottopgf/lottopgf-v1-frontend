@@ -9,7 +9,7 @@ export function FundingProgress({
   target: bigint;
 }) {
   const percentageRaised = parseFloat(
-    formatUnits((amount * 10_000n) / target, 2)
+    formatUnits((amount * 10_000n) / target, 2),
   );
 
   return (

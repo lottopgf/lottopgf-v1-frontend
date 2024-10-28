@@ -27,7 +27,7 @@ export function useTicketClaimStatuses({
           address: CONTRACT_ADDRESS,
           functionName: "ownerOf",
           args: [ticketId],
-        } as const)
+        }) as const,
     ),
   });
 
@@ -42,7 +42,7 @@ export function useTicketClaimStatuses({
           address: CONTRACT_ADDRESS,
           functionName: "purchasedTickets",
           args: [ticketId],
-        } as const)
+        }) as const,
     ),
   });
 
@@ -78,7 +78,7 @@ export function useTicketClaimStatuses({
         isApocalypseWinner: boolean;
         isJackpotWinner: boolean;
       }
-    >()
+    >(),
   );
 
   return {

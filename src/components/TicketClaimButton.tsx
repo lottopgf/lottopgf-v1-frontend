@@ -55,7 +55,7 @@ export function TicketClaimButton({
             e.preventDefault();
             window.open(
               `${CHAIN.blockExplorers.default.url}/tx/${hash}`,
-              "_blank"
+              "_blank",
             );
           },
         },
