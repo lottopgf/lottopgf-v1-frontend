@@ -240,7 +240,7 @@ export function LotteryStatsSkeleton() {
 
 function DetailsCardTitle({ children }: { children: ReactNode }) {
   return (
-    <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
+    <span className="text-3xl sm:text-4xl lg:text-5xl font-bold">
       {children}
     </span>
   );
