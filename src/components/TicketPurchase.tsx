@@ -53,6 +53,7 @@ import {
   minLength,
   number,
   object,
+  optional,
   pipe,
   set,
   size,
@@ -85,12 +86,24 @@ const makeFieldSchema = (numbersCount: number) =>
       check((value) => isAddress(value)),
       transform((value) => getAddress(value)),
     ),
-    numbers: pipe(
+    tickets: pipe(
       array(
-        pipe(
-          set(number()),
-          size(numbersCount, `You have to select ${numbersCount} numbers.`),
-        ),
+        object({
+          numbers: pipe(
+            set(number()),
+            size(numbersCount, `You have to select ${numbersCount} numbers.`),
+          ),
+          recipient: optional(
+            pipe(
+              string(),
+              check(
+                (value) => isAddress(value),
+                "Please enter a valid ethereum address",
+              ),
+              transform((value) => getAddress(value)),
+            ),
+          ),
+        }),
       ),
       minLength(1, "You must select at least 1 ticket."),
     ),
@@ -131,14 +144,14 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
     reset,
   } = useForm<TicketPurchaseFields>({
     defaultValues: {
-      numbers: [new Set()],
+      tickets: [{ numbers: new Set() }],
       recipient: zeroAddress,
     },
     resolver: valibotResolver(makeFieldSchema(pickLength)),
   });
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "numbers",
+    name: "tickets",
   });
 
   const { writeContractAsync, data: hash } = useWriteContract();
@@ -147,12 +160,12 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
     hash,
   });
 
-  const numbers = useWatch({ name: "numbers", control });
+  const tickets = useWatch({ name: "tickets", control });
   const recipient = useWatch({ name: "recipient", control });
 
   const isLoading = isSubmitting || isConfirming || isPendingAllowance;
 
-  const totalPrice = ticketPrice * BigInt(numbers.length);
+  const totalPrice = ticketPrice * BigInt(tickets.length);
 
   const hasEnoughBalance = !!balance && balance >= totalPrice;
   const hasEnoughAllowance = !!allowance && allowance >= totalPrice;
@@ -165,14 +178,14 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
   }
 
   async function onSubmit(fields: TicketPurchaseFields) {
-    if (!address || !fields.numbers.length) return;
+    if (!address || !fields.tickets.length) return;
 
     try {
       let hash: Hex;
 
-      const picks = fields.numbers.map((set) => ({
-        whomst: address,
-        pick: [...set].sort((a, b) => a - b),
+      const picks = fields.tickets.map(({ numbers, recipient }) => ({
+        whomst: recipient ?? address,
+        pick: [...numbers].sort((a, b) => a - b),
       }));
 
       if (PRIZE_TOKEN_IS_NATIVE) {
@@ -224,7 +237,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
 
   function scrollToLastItem() {
     setTimeout(() => {
-      if (numbers.length > 1 && scrollAreaRef.current && addTicketRef.current) {
+      if (tickets.length > 1 && scrollAreaRef.current && addTicketRef.current) {
         scrollAreaRef.current.scrollLeft +=
           addTicketRef.current.offsetWidth +
           (addTicketRef.current.parentElement
@@ -238,10 +251,10 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
 
   function pickShortcut(amount: number) {
     setValue(
-      "numbers",
-      Array.from({ length: amount }, () =>
-        getRandomPicks(pickLength, maxBallValue),
-      ),
+      "tickets",
+      Array.from({ length: amount }, () => ({
+        numbers: getRandomPicks(pickLength, maxBallValue),
+      })),
     );
   }
 
@@ -357,7 +370,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                   >
                     <NumberPicker
                       index={index}
-                      name={`numbers.${index}`}
+                      name={`tickets.${index}`}
                       onRemove={fields.length > 1 ? remove : undefined}
                       control={control}
                     />
@@ -367,7 +380,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                   type="button"
                   ref={addTicketRef}
                   onClick={() => {
-                    append([new Set()]);
+                    append([{ numbers: new Set() }]);
 
                     scrollToLastItem();
                   }}
@@ -434,8 +447,8 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                   <>
                     <div>
                       <p>
-                        Buying {numbers.length}{" "}
-                        {numbers.length === 1 ? "ticket" : "tickets"} for{" "}
+                        Buying {tickets.length}{" "}
+                        {tickets.length === 1 ? "ticket" : "tickets"} for{" "}
                         <Amount
                           value={totalPrice}
                           decimals={PRIZE_TOKEN_DECIMALS}
@@ -457,8 +470,8 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                         {isLoading && (
                           <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
                         )}{" "}
-                        Buy {numbers.length}{" "}
-                        {numbers.length === 1 ? "ticket" : "tickets"}
+                        Buy {tickets.length}{" "}
+                        {tickets.length === 1 ? "ticket" : "tickets"}
                       </Button>
                     ) : (
                       <Button

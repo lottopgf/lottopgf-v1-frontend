@@ -9,12 +9,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useGameConfig } from "@/hooks/useGameConfig";
 import { getRandomPicks } from "@/lib/random";
-import { cn } from "@/lib/utils";
+import { cn, isObjectEmpty } from "@/lib/utils";
 import { ErrorMessage } from "@hookform/error-message";
-import { DicesIcon, Trash2Icon } from "lucide-react";
-import { Controller, type Control } from "react-hook-form";
+import { DicesIcon, Trash2Icon, WalletIcon } from "lucide-react";
+import { useState } from "react";
+import {
+  Controller,
+  useController,
+  useFormState,
+  type Control,
+} from "react-hook-form";
 
 export function NumberPicker({
   index,
@@ -24,31 +37,38 @@ export function NumberPicker({
 }: {
   index: number;
   control: Control<TicketPurchaseFields>;
-  name: `numbers.${number}`;
+  name: `tickets.${number}`;
   onRemove?: (index: number) => void;
 }) {
+  const [recipientVisible, setRecipientVisible] = useState(false);
   const { pickLength, maxBallValue } = useGameConfig();
 
+  const { errors } = useFormState({ control, name });
+
+  const {
+    field: { onChange: setNumbers },
+  } = useController({ name: `${name}.numbers`, control });
+
   return (
-    <Controller
-      control={control}
-      name={name}
-      render={({
-        field: { value, name, onChange, onBlur },
-        fieldState: { error },
-        formState: { errors },
-      }) => {
-        const disabled = value.size === pickLength;
-        return (
-          <Card className={cn(error && "border-destructive")}>
-            <CardHeader>
-              <CardTitle>Ticket #{index + 1}</CardTitle>
-            </CardHeader>
-            <CardContent>
+    <Card className={cn(!isObjectEmpty(errors) && "border-destructive")}>
+      <CardHeader>
+        <CardTitle>Ticket #{index + 1}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Controller
+          control={control}
+          name={`${name}.numbers`}
+          render={({
+            field: { value: numbers, name, onChange, onBlur },
+            formState: { errors },
+          }) => {
+            const disabled = numbers.size === pickLength;
+
+            return (
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center justify-start gap-2">
                   {[...Array(maxBallValue)].map((_, index) => {
-                    const checked = value.has(index + 1);
+                    const checked = numbers.has(index + 1);
                     return (
                       <label
                         key={index}
@@ -63,10 +83,10 @@ export function NumberPicker({
                           checked={checked}
                           onChange={(e) => {
                             if (e.currentTarget.checked) {
-                              onChange(value.add(index + 1));
+                              onChange(numbers.add(index + 1));
                             } else {
-                              value.delete(index + 1);
-                              onChange(value);
+                              numbers.delete(index + 1);
+                              onChange(numbers);
                             }
                           }}
                           onBlur={onBlur}
@@ -87,34 +107,72 @@ export function NumberPicker({
                   name={name}
                 />
               </div>
-            </CardContent>
-            <CardFooter className="justify-between gap-2">
+            );
+          }}
+        />
+      </CardContent>
+      <CardFooter className="flex flex-col items-stretch gap-2">
+        <div className="flex justify-between gap-2">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => setNumbers(getRandomPicks(pickLength, maxBallValue))}
+            className="gap-2"
+          >
+            <DicesIcon size="1em" /> Randomize
+          </Button>
+          <div className="flex gap-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="outline"
+                    onClick={() => setRecipientVisible(!recipientVisible)}
+                    className="size-9"
+                  >
+                    <WalletIcon className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Select a wallet to receive this ticket</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            {!!onRemove && (
               <Button
                 type="button"
-                size="sm"
+                size="icon"
                 variant="outline"
-                onClick={() =>
-                  onChange(getRandomPicks(pickLength, maxBallValue))
-                }
-                className="gap-2"
+                onClick={() => onRemove?.(index)}
+                className="size-9"
               >
-                <DicesIcon size="1em" /> Randomize numbers
+                <Trash2Icon className="size-4" />
               </Button>
-              {!!onRemove && (
-                <Button
-                  type="button"
-                  size="icon"
-                  variant="outline"
-                  onClick={() => onRemove?.(index)}
-                  className="size-9"
-                >
-                  <Trash2Icon className="size-4" />
-                </Button>
-              )}
-            </CardFooter>
-          </Card>
-        );
-      }}
-    />
+            )}
+          </div>
+        </div>
+        {recipientVisible && (
+          <div className="space-y-2">
+            <Input
+              type="text"
+              placeholder="Receiver address"
+              className="rounded-xl"
+              {...control.register(`${name}.recipient`, {
+                shouldUnregister: true,
+              })}
+            />
+
+            <ErrorMessage
+              as={<div className="text-sm text-destructive" />}
+              errors={errors}
+              name={`${name}.recipient`}
+            />
+          </div>
+        )}
+      </CardFooter>
+    </Card>
   );
 }
