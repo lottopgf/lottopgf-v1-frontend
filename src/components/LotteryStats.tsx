@@ -62,7 +62,7 @@ export function LotteryStats() {
 
   return (
     <div className="space-y-4">
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid gap-6 sm:grid-cols-2">
         {SHOW_FUNDS_RAISED && (
           <Card>
             <CardHeader>
@@ -100,7 +100,7 @@ export function LotteryStats() {
                   className="h-3"
                   value={parseInt(percentageRaised.toString())}
                 />
-                <span className="text-foreground text-sm tabular-nums">
+                <span className="text-sm tabular-nums text-foreground">
                   {percentageRaised.toLocaleString("en-US")}%
                 </span>
               </div>
@@ -150,9 +150,9 @@ export function LotteryStats() {
         <Card>
           <CardHeader>
             <CardDescription>Your tickets</CardDescription>
-            <CardTitle className="flex justify-between items-end">
+            <CardTitle className="flex items-end justify-between">
               <DetailsCardTitle>{numberOfTickets}</DetailsCardTitle>{" "}
-              <Link href="/tickets" className="text-green-500 text-base">
+              <Link href="/tickets" className="text-base text-green-500">
                 View your tickets &gt;
               </Link>
             </CardTitle>
@@ -166,7 +166,7 @@ export function LotteryStats() {
 export function LotteryStatsSkeleton() {
   return (
     <div className="space-y-4">
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid gap-6 sm:grid-cols-2">
         {SHOW_FUNDS_RAISED && (
           <Card>
             <CardHeader>
@@ -240,7 +240,7 @@ export function LotteryStatsSkeleton() {
 
 function DetailsCardTitle({ children }: { children: ReactNode }) {
   return (
-    <span className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+    <span className="text-3xl font-bold sm:text-4xl lg:text-5xl">
       {children}
     </span>
   );

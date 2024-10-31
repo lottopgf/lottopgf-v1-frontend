@@ -52,7 +52,7 @@ export function NumberPicker({
                     return (
                       <label
                         key={index}
-                        className="justify-self-center self-center"
+                        className="self-center justify-self-center"
                         htmlFor={`${name}.${index}`}
                       >
                         <input
@@ -71,9 +71,9 @@ export function NumberPicker({
                           }}
                           onBlur={onBlur}
                         />
-                        <div className="relative size-12 font-semibold flex items-center justify-center rounded-full border border-input peer-checked:border-primary peer-checked:[&>*]:block cursor-pointer overflow-hidden peer-disabled:opacity-50 peer-disabled:cursor-not-allowed">
+                        <div className="relative flex size-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-input font-semibold peer-checked:border-primary peer-disabled:cursor-not-allowed peer-disabled:opacity-50 peer-checked:[&>*]:block">
                           {index + 1}
-                          <span className="hidden absolute text-primary opacity-10 text-4xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                          <span className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-4xl text-primary opacity-10">
                             ✗
                           </span>
                         </div>
@@ -82,13 +82,13 @@ export function NumberPicker({
                   })}
                 </div>
                 <ErrorMessage
-                  as={<div className="text-destructive text-sm" />}
+                  as={<div className="text-sm text-destructive" />}
                   errors={errors}
                   name={name}
                 />
               </div>
             </CardContent>
-            <CardFooter className="gap-2 justify-between">
+            <CardFooter className="justify-between gap-2">
               <Button
                 type="button"
                 size="sm"

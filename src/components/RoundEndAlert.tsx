@@ -180,7 +180,7 @@ export function RoundEndAlert({
     <Alert>
       <AlertTriangleIcon className="h-4 w-4" />
       <div />
-      <div className="flex gap-6 justify-between items-center">
+      <div className="flex items-center justify-between gap-6">
         <div className="flex-1">
           <AlertTitle>Current draw has ended</AlertTitle>
           <AlertDescription className="space-y-2">

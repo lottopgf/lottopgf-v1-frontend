@@ -42,7 +42,7 @@ export default async function RootLayout({
         >
           <Providers initialState={initialState}>
             <Header />
-            <main className="w-full px-4 mx-auto max-w-[48.875rem]">
+            <main className="mx-auto w-full max-w-[48.875rem] px-4">
               {children}
             </main>
             <Toaster />

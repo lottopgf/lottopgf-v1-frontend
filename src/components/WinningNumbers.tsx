@@ -12,7 +12,7 @@ export function NumbersList({ numbers }: { numbers: number[] }) {
       {numbers.map((number) => (
         <div
           key={number}
-          className="bg-green-600 text-white size-12 flex items-center justify-center font-bold rounded-full text-xl"
+          className="flex size-12 items-center justify-center rounded-full bg-green-600 text-xl font-bold text-white"
         >
           {number}
         </div>

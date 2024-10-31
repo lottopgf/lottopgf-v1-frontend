@@ -7,7 +7,7 @@ export function Footer() {
       <Link
         href="https://lottopgf.org"
         target="_blank"
-        className="underline hover:no-underline decoration-dotted"
+        className="underline decoration-dotted hover:no-underline"
       >
         LottoPGF
       </Link>{" "}

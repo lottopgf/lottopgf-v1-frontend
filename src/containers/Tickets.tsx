@@ -9,7 +9,7 @@ export function Tickets() {
   const { gameId } = useCurrentGame();
 
   return (
-    <div className="space-y-14 mb-4">
+    <div className="mb-4 space-y-14">
       <ErrorBoundary fallback={<p>Error</p>}>
         <CurrentTickets />
       </ErrorBoundary>

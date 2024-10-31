@@ -13,7 +13,7 @@ export function Banner() {
         width={720}
         height={450}
         alt=""
-        className="object-cover rounded-3xl aspect-[720/450] mx-auto w-full"
+        className="mx-auto aspect-[720/450] w-full rounded-3xl object-cover"
         priority
       />
       <div className="space-y-4">

@@ -270,10 +270,10 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
             </p>
           </header>
 
-          <div className="grid sm:grid-cols-6 gap-6">
+          <div className="grid gap-6 sm:grid-cols-6">
             <Card className="sm:col-span-6">
               <CardHeader>
-                <div className="flex flex-col gap-6 sm:flex-row justify-between items-stretch sm:items-center">
+                <div className="flex flex-col items-stretch justify-between gap-6 sm:flex-row sm:items-center">
                   <div className="space-y-4">
                     <div className="space-y-1.5">
                       <CardTitle className="text-lg">Collective Fund</CardTitle>
@@ -282,7 +282,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                       </CardDescription>
                     </div>
                     <p className="text-muted-foreground">
-                      <span className="text-foreground font-semibold">
+                      <span className="font-semibold text-foreground">
                         <Amount
                           value={accruedCommunityFees}
                           decimals={PRIZE_TOKEN_DECIMALS}
@@ -348,11 +348,11 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
             viewportClassName="overscroll-contain scroll-smooth"
             className="mb-14 ml-[50%] w-[100vw] -translate-x-1/2"
           >
-            <div className="w-full mx-auto max-w-[48.875rem] px-4">
+            <div className="mx-auto w-full max-w-[48.875rem] px-4">
               <div className="flex gap-6">
                 {fields.map((field, index) => (
                   <fieldset
-                    className="max-w-[280px] sm:max-w-[322px] md:max-w-[calc(50%-.75rem)] w-full flex-shrink-0"
+                    className="w-full max-w-[280px] flex-shrink-0 sm:max-w-[322px] md:max-w-[calc(50%-.75rem)]"
                     key={field.id}
                   >
                     <NumberPicker
@@ -371,7 +371,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
 
                     scrollToLastItem();
                   }}
-                  className="flex flex-col gap-2 items-center justify-center rounded-3xl border-2 bg-foreground/[0.01] border-dashed border-foreground/5 max-w-[280px] sm:max-w-[322px] md:max-w-[calc(50%-.75rem)] w-full flex-shrink-0"
+                  className="flex w-full max-w-[280px] flex-shrink-0 flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-foreground/5 bg-foreground/[0.01] sm:max-w-[322px] md:max-w-[calc(50%-.75rem)]"
                 >
                   <PlusIcon className="size-6" />
                   <p className="text-lg">Add a ticket</p>
@@ -382,7 +382,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
           <div className="space-y-2">
-            <p className="text-muted-foreground text-sm">Shortcuts</p>
+            <p className="text-sm text-muted-foreground">Shortcuts</p>
             <div className="flex gap-2 overflow-x-auto">
               <Button
                 type="button"
@@ -427,9 +427,9 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
               </AlertDescription>
             </Alert>
           )}
-          <div className="rounded-3xl text-sm md:text-base bg-background border border-foreground/10 text-foreground px-4 py-3 shadow-sm">
+          <div className="rounded-3xl border border-foreground/10 bg-background px-4 py-3 text-sm text-foreground shadow-sm md:text-base">
             {isConnected ? (
-              <div className="flex gap-6 justify-between items-center">
+              <div className="flex items-center justify-between gap-6">
                 {hasEnoughBalance ? (
                   <>
                     <div>
@@ -540,7 +540,7 @@ function FundraiserCard({
       </CardHeader>
       <CardContent>
         <div className="text-muted-foreground">
-          <span className="text-foreground font-semibold">
+          <span className="font-semibold text-foreground">
             <Amount value={balance ?? 0n} decimals={PRIZE_TOKEN_DECIMALS} />
           </span>{" "}
           of <Amount value={targetAmount} decimals={PRIZE_TOKEN_DECIMALS} /> ETH

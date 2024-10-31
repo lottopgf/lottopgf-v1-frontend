@@ -33,7 +33,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
   useEffect(() => {
     if (hasWon && isPreviousGame) {
       toast.message("Congratulations! You have won!", {
-        icon: <PartyPopperIcon className="w-4 h-4" />,
+        icon: <PartyPopperIcon className="h-4 w-4" />,
         description: "Claim your prize now.",
         action: {
           label: "Claim",
@@ -70,7 +70,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
           <Alert ref={congratulationsAlert}>
             <PartyPopperIcon className="h-4 w-4" />
             <div />
-            <div className="flex gap-4 justify-between items-center">
+            <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
                 <AlertTitle>Congratulations! You have won!</AlertTitle>
                 <AlertDescription className="space-y-2">
@@ -83,7 +83,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
           <Alert>
             <AlertTriangleIcon className="h-4 w-4" />
             <div />
-            <div className="flex gap-4 justify-between items-center">
+            <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
                 <AlertTitle>You won in this draw!</AlertTitle>
                 <AlertDescription className="space-y-2">
@@ -93,7 +93,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
             </div>
           </Alert>
         ))}
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid gap-6 sm:grid-cols-2">
         {tickets
           .sort((ticket) => (ticket.claimStatus?.isWinner === true ? -1 : 1))
           .map((ticket) => {
@@ -102,7 +102,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
             return (
               <Card key={ticket.tokenId}>
                 <CardHeader>
-                  <div className="flex gap-6 items-center justify-between">
+                  <div className="flex items-center justify-between gap-6">
                     <div className="space-y-4">
                       <CardTitle>Ticket #{ticket.tokenId}</CardTitle>
                       <NumbersList numbers={ticket.pick} />
@@ -129,7 +129,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
 
 export function TicketsSkeleton() {
   return (
-    <div className="grid sm:grid-cols-2 gap-6">
+    <div className="grid gap-6 sm:grid-cols-2">
       <TicketSkeleton />
       <TicketSkeleton />
       <TicketSkeleton />
@@ -141,7 +141,7 @@ function TicketSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex gap-6 items-center justify-between">
+        <div className="flex items-center justify-between gap-6">
           <div className="space-y-1">
             <CardDescription>
               <Skeleton className="block w-[100px]">&nbsp;</Skeleton>

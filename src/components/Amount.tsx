@@ -17,7 +17,7 @@ export function Amount({
   if (floatValue !== 0 && floatValue < 0.0001) {
     return (
       <span
-        className="underline underline-offset-4 decoration-dotted decoration-muted-foreground decoration-2 cursor-context-menu"
+        className="cursor-context-menu underline decoration-muted-foreground decoration-dotted decoration-2 underline-offset-4"
         title={unitsValue}
       >
         &lt;0.0001

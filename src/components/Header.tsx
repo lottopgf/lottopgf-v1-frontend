@@ -12,8 +12,8 @@ export function Header() {
 
   return (
     <header className="py-2 md:py-8">
-      <div className="w-full px-4 mx-auto max-w-[48.875rem] flex items-center gap-2 md:gap-4 h-14 leading-tight">
-        <Link href="/" className="flex-1 flex items-center gap-2">
+      <div className="mx-auto flex h-14 w-full max-w-[48.875rem] items-center gap-2 px-4 leading-tight md:gap-4">
+        <Link href="/" className="flex flex-1 items-center gap-2">
           {!!METADATA.logo && (
             <Image
               src={METADATA.logo}
@@ -25,7 +25,7 @@ export function Header() {
             />
           )}
           {!!METADATA.title && (
-            <h1 className="text-sm leading-tight md:text-2xl font-serif">
+            <h1 className="font-serif text-sm leading-tight md:text-2xl">
               {METADATA.title}
             </h1>
           )}
