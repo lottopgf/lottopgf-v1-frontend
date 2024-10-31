@@ -432,15 +432,26 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
               <div className="flex gap-6 justify-between items-center">
                 {hasEnoughBalance ? (
                   <>
-                    <p>
-                      Buying {numbers.length}{" "}
-                      {numbers.length === 1 ? "ticket" : "tickets"} for{" "}
-                      <Amount
-                        value={totalPrice}
-                        decimals={PRIZE_TOKEN_DECIMALS}
-                      />{" "}
-                      {PRIZE_TOKEN_TICKER}
-                    </p>
+                    <div>
+                      <p>
+                        Buying {numbers.length}{" "}
+                        {numbers.length === 1 ? "ticket" : "tickets"} for{" "}
+                        <Amount
+                          value={totalPrice}
+                          decimals={PRIZE_TOKEN_DECIMALS}
+                        />{" "}
+                        {PRIZE_TOKEN_TICKER}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        You have{" "}
+                        <Amount
+                          value={balance}
+                          decimals={PRIZE_TOKEN_DECIMALS}
+                        />{" "}
+                        {PRIZE_TOKEN_TICKER}
+                      </p>
+                    </div>
+
                     {PRIZE_TOKEN_IS_NATIVE || hasEnoughAllowance ? (
                       <Button size="sm" disabled={!hasEnoughBalance}>
                         {isLoading && (
@@ -466,14 +477,21 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                     )}
                   </>
                 ) : (
-                  <p>
-                    You do not have enough balance. You need{" "}
-                    <Amount
-                      value={totalPrice}
-                      decimals={PRIZE_TOKEN_DECIMALS}
-                    />{" "}
-                    {PRIZE_TOKEN_TICKER}.
-                  </p>
+                  <div>
+                    <p>
+                      You do not have enough balance. You need{" "}
+                      <Amount
+                        value={totalPrice}
+                        decimals={PRIZE_TOKEN_DECIMALS}
+                      />{" "}
+                      {PRIZE_TOKEN_TICKER}.
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      You have{" "}
+                      <Amount value={balance} decimals={PRIZE_TOKEN_DECIMALS} />{" "}
+                      {PRIZE_TOKEN_TICKER}
+                    </p>
+                  </div>
                 )}
               </div>
             ) : (
