@@ -20,7 +20,7 @@ import { useGameConfig } from "@/hooks/useGameConfig";
 import { getRandomPicks } from "@/lib/random";
 import { cn, isObjectEmpty } from "@/lib/utils";
 import { ErrorMessage } from "@hookform/error-message";
-import { DicesIcon, Trash2Icon, WalletIcon } from "lucide-react";
+import { DicesIcon, GiftIcon, Trash2Icon, WalletIcon } from "lucide-react";
 import { useState } from "react";
 import {
   Controller,
@@ -133,7 +133,7 @@ export function NumberPicker({
                     onClick={() => setRecipientVisible(!recipientVisible)}
                     className="size-9"
                   >
-                    <WalletIcon className="size-4" />
+                    <GiftIcon className="size-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -158,7 +158,7 @@ export function NumberPicker({
           <div className="space-y-2">
             <Input
               type="text"
-              placeholder="Receiver address"
+              placeholder="Ticket recipient address"
               className="rounded-xl"
               {...control.register(`${name}.recipient`, {
                 shouldUnregister: true,
