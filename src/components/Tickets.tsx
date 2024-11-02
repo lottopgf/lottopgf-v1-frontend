@@ -102,21 +102,21 @@ export function Tickets({ gameId }: { gameId: bigint }) {
             return (
               <Card key={ticket.tokenId}>
                 <CardHeader>
-                  <div className="flex items-center justify-between gap-6">
-                    <div className="space-y-4">
-                      <CardTitle>Ticket #{ticket.tokenId}</CardTitle>
-                      <NumbersList numbers={ticket.pick} />
-                      {ticket.claimStatus?.hasBeenClaimed ? (
-                        <p className="text-muted-foreground">Claimed</p>
-                      ) : (
-                        ticket.claimStatus.isWinner && (
-                          <TicketClaimButton
-                            tokenId={BigInt(ticket.tokenId)}
-                            onClaim={() => refetch()}
-                          />
-                        )
-                      )}
-                    </div>
+                  <div className="space-y-4">
+                    <CardTitle>Ticket #{ticket.tokenId}</CardTitle>
+                    <NumbersList numbers={ticket.pick} />
+                    {ticket.claimStatus?.hasBeenClaimed ? (
+                      <p className="text-muted-foreground">Claimed</p>
+                    ) : ticket.claimStatus.isWinner ? (
+                      <TicketClaimButton
+                        tokenId={BigInt(ticket.tokenId)}
+                        onClaim={() => refetch()}
+                      />
+                    ) : (
+                      <p className="py-3.5 text-sm text-muted-foreground">
+                        This ticket did not win
+                      </p>
+                    )}
                   </div>
                 </CardHeader>
               </Card>
