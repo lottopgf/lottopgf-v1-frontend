@@ -4,6 +4,7 @@ import { CHAIN, CONTRACT_ADDRESS } from "@/config";
 import { extractErrorMessages, handleTransactionError } from "@/lib/error";
 import { Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
+import { ContractFunctionExecutionError } from "viem";
 import {
   usePublicClient,
   useSimulateContract,
@@ -22,6 +23,7 @@ export function TicketClaimButton({
 
   const {
     data,
+    error,
     isError,
     isPending: isSimulating,
   } = useSimulateContract({
@@ -40,6 +42,10 @@ export function TicketClaimButton({
     });
 
   const isLoading = isPending || isConfirming;
+
+  const hasBeenClaimed =
+    error instanceof ContractFunctionExecutionError &&
+    error.message.includes("AlreadyClaimed");
 
   async function handleClaim() {
     if (!data?.request) return;
@@ -69,6 +75,12 @@ export function TicketClaimButton({
     } catch (error) {
       handleTransactionError(error);
     }
+  }
+
+  if (hasBeenClaimed) {
+    return (
+      <p className="py-3.5 text-sm text-muted-foreground">Claimed already</p>
+    );
   }
 
   return (
