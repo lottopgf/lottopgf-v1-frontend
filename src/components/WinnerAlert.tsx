@@ -10,9 +10,11 @@ import { useAccount } from "wagmi";
 
 function WinnerAlertComponent({ gameId }: { gameId: bigint }) {
   const { address } = useAccount();
-  const { winningIds, winningAddresses, isApocalypse } = useWinner({ gameId });
+  const { winningIds, winningAddresses, isOverWithApocalypse } = useWinner({
+    gameId,
+  });
 
-  if (isApocalypse) {
+  if (isOverWithApocalypse) {
     return (
       <>
         <ConfettiExplosion />

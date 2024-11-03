@@ -9,7 +9,9 @@ import { readContractsQueryOptions } from "wagmi/query";
 export function useWinner({ gameId }: { gameId: bigint }) {
   const config = useConfig();
 
-  const { winningPickId, isApocalypse } = useGameData({ gameId });
+  const { winningPickId, isApocalypse, isActive } = useGameData({ gameId });
+
+  const isOverWithApocalypse = isApocalypse && !isActive;
 
   const readContractsOptions = readContractsQueryOptions(config, {
     contracts: Array.from(
@@ -73,5 +75,6 @@ export function useWinner({ gameId }: { gameId: bigint }) {
     winningIds,
     winningAddresses,
     isApocalypse,
+    isOverWithApocalypse,
   };
 }
