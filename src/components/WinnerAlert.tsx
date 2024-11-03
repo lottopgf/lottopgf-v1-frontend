@@ -47,15 +47,20 @@ function WinnerAlertComponent({ gameId }: { gameId: bigint }) {
     <>
       <ConfettiExplosion />
       <Alert>
-        <PartyPopperIcon className="size-4" />
+        <PartyPopperIcon className="m-auto size-4" />
         <div />
-        <div className="flex items-center justify-between gap-6">
+        <div className="flex items-start justify-between gap-6">
           <div className="flex-1">
             <AlertTitle>
-              We have {winningIds.length} winners in the last draw!
+              We have {winningIds.length}{" "}
+              {winningIds.length === 1 ? "winner" : "winners"} in the last draw!
             </AlertTitle>
             <AlertDescription className="space-y-4">
-              {userIsWinner && <p>You won! Congratulations! 🎉</p>}
+              {userIsWinner ? (
+                <p>You won! Congratulations! 🎉</p>
+              ) : (
+                <p>Check your tickets to see if you won</p>
+              )}
             </AlertDescription>
           </div>
           <Button asChild>
