@@ -531,8 +531,8 @@ function FundraiserCard({
   onClick,
 }: {
   title: string;
-  description: ReactNode;
-  targetAmount: bigint;
+  description?: ReactNode;
+  targetAmount?: bigint;
   address: Address;
   isActive: boolean;
   onClick: () => void;
@@ -549,17 +549,26 @@ function FundraiserCard({
     <Card className="sm:col-span-3">
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        {!!description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent>
         <div className="text-muted-foreground">
           <span className="font-semibold text-foreground">
             <Amount value={balance ?? 0n} decimals={PRIZE_TOKEN_DECIMALS} />
           </span>{" "}
-          of <Amount value={targetAmount} decimals={PRIZE_TOKEN_DECIMALS} /> ETH
+          {!!targetAmount ? (
+            <>
+              of <Amount value={targetAmount} decimals={PRIZE_TOKEN_DECIMALS} />{" "}
+              {PRIZE_TOKEN_TICKER}
+            </>
+          ) : (
+            <>{PRIZE_TOKEN_TICKER} raised</>
+          )}
         </div>
 
-        <FundingProgress amount={balance ?? 0n} target={targetAmount} />
+        {!!targetAmount && (
+          <FundingProgress amount={balance ?? 0n} target={targetAmount} />
+        )}
       </CardContent>
       <CardFooter>
         <Button

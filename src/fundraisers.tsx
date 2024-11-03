@@ -4,9 +4,9 @@ import { parseUnits, type Address } from "viem";
 
 interface Fundraiser {
   title: string;
-  description: ReactNode;
-  targetAmount: bigint;
   address: Address;
+  description?: ReactNode;
+  targetAmount?: bigint;
 }
 
 export const FUNDRAISERS: Fundraiser[] = [
