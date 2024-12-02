@@ -14,9 +14,7 @@ import { scroll } from "viem/chains";
 
 export const transport = fallback([
   webSocket(process.env.NEXT_PUBLIC_RPC_WS),
-  webSocket(),
   http(process.env.NEXT_PUBLIC_RPC_HTTP, { batch: true }),
-  http(undefined, { batch: true }),
 ]);
 
 export const publicClient = createPublicClient({
