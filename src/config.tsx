@@ -19,6 +19,12 @@ export const METADATA = {
   ),
 };
 
+// The metadata of the collective fund (default receiver of funds)
+export const COLLECTIVE_FUND_METADATA = {
+  name: "Collective fund",
+  description: "Managed by the lottery organizer",
+};
+
 // The chain where your lottery contract is deployed
 export const CHAIN = base;
 
@@ -46,8 +52,8 @@ export const GRAPHQL_API =
 // Set to null to disable the progress bar
 export const FUNDRAISE_TARGET: bigint | null = null;
 
-// Maps chain ids to the respective name on relay.link
-export const RELAY_BRIDGE_NAME_MAPPING = {
+// Maps chain ids to the respective plaintext name
+export const CHAIN_NAME_MAPPING = {
   [scroll.id]: "scroll",
   [base.id]: "base",
 };

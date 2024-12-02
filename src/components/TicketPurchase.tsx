@@ -18,6 +18,7 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   CHAIN,
+  COLLECTIVE_FUND_METADATA,
   CONTRACT_ADDRESS,
   LOOTERY_ETH_ADAPTER_ADDRESS,
   PRIZE_TOKEN_DECIMALS,
@@ -289,9 +290,11 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                 <div className="flex flex-col items-stretch justify-between gap-6 sm:flex-row sm:items-center">
                   <div className="space-y-4">
                     <div className="space-y-1.5">
-                      <CardTitle className="text-lg">Collective Fund</CardTitle>
+                      <CardTitle className="text-lg">
+                        {COLLECTIVE_FUND_METADATA.name}
+                      </CardTitle>
                       <CardDescription>
-                        Managed by the lottery organizer
+                        {COLLECTIVE_FUND_METADATA.description}
                       </CardDescription>
                     </div>
                     <p className="text-muted-foreground">
