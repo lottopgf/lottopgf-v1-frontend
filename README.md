@@ -26,4 +26,4 @@ $ pnpm dev
 
 Currently this app only works on Vercel.
 
-Make sure that `.env.local` and `config.ts` are configured correctly.
+Make sure that your environment variables and `config.ts` are configured correctly.
