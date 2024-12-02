@@ -11,9 +11,9 @@ interface Fundraiser {
 
 export const FUNDRAISERS: Fundraiser[] = [
   {
-    title: "LottoPGF Support",
-    description: "Support development of the LottoPGF project!",
+    title: "LottoPGF Support Fund",
+    description: "Support development of the LottoPGF protocol!",
     targetAmount: parseUnits("0.42069", PRIZE_TOKEN_DECIMALS),
-    address: "0xF9FCDf64160087Ac1610bB1366750D55043ef206",
+    address: "0x8220B74b87D77b11f6950dD2dFCe77D5D8971829",
   },
 ];
