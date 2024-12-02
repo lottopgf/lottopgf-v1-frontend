@@ -48,7 +48,7 @@ export async function estimateFeesPerGas() {
   let { maxFeePerGas, maxPriorityFeePerGas } =
     await publicClient.estimateFeesPerGas();
 
-  if (publicClient.chain.id === scroll.id) {
+  if ((publicClient.chain.id as number) === scroll.id) {
     maxFeePerGas =
       maxFeePerGas < SCROLL_MINIMUM_MAX_FEE_PER_GAS
         ? SCROLL_MINIMUM_MAX_FEE_PER_GAS
