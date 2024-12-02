@@ -54,8 +54,8 @@ function WinnerAlertComponent({ gameId }: { gameId: bigint }) {
         <div className="flex items-start justify-between gap-6">
           <div className="flex-1">
             <AlertTitle>
-              We have {winningIds.length}{" "}
-              {winningIds.length === 1 ? "winner" : "winners"} in the last draw!
+              We have {winningIds.length} winning{" "}
+              {winningIds.length === 1 ? "ticket" : "tickets"} in the last draw!
             </AlertTitle>
             <AlertDescription className="space-y-4">
               {userIsWinner ? (
