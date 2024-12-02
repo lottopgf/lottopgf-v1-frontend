@@ -182,9 +182,9 @@ export function RoundEndAlert({
       <div />
       <div className="flex items-center justify-between gap-6">
         <div className="flex-1">
-          <AlertTitle>Current draw has ended</AlertTitle>
+          <AlertTitle>The lottery is ready to be drawn</AlertTitle>
           <AlertDescription className="space-y-2">
-            <p>The draw can now be executed.</p>
+            <p>You can still buy tickets or execute the draw.</p>
           </AlertDescription>
         </div>
         {isConnected ? (
