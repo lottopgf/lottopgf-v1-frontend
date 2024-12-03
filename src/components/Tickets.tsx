@@ -28,6 +28,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
   });
 
   const isPreviousGame = gameId === currentGameId - 1n;
+  const isPastGame = gameId < currentGameId;
   const congratulationsAlert = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -113,9 +114,11 @@ export function Tickets({ gameId }: { gameId: bigint }) {
                         onClaim={() => refetch()}
                       />
                     ) : (
-                      <p className="py-3.5 text-sm text-muted-foreground">
-                        This ticket did not win
-                      </p>
+                      isPastGame && (
+                        <p className="py-3.5 text-sm text-muted-foreground">
+                          This ticket did not win
+                        </p>
+                      )
                     )}
                   </div>
                 </CardHeader>
