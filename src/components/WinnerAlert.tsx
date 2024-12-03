@@ -37,7 +37,7 @@ function WinnerAlertComponent({ gameId }: { gameId: bigint }) {
     );
   }
 
-  if (!winningIds || !winningAddresses) return null;
+  if (!winningIds || !winningIds.length || !winningAddresses) return null;
 
   const userIsWinner =
     !!address &&
