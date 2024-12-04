@@ -9,6 +9,10 @@ interface Fundraiser {
   targetAmount?: bigint;
 }
 
+// List of fundraisers that will be shown on the homepage.
+// Each beneficiary address needs to be whitelisted on the lottery contract
+// with the `setBeneficiary` function, otherwise the transactions will fail.
+// If you don't want to show any fundraisers, set this to an empty array.
 export const FUNDRAISERS: Fundraiser[] = [
   {
     title: "LottoPGF Support Fund",
