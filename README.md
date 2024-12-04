@@ -1,6 +1,6 @@
-# Lootery frontend
+# LottoPGF V1 frontend
 
-This is the frontend for LottoPGF's Lootery protocol. It allows to run a basic lottery.
+This is the frontend for LottoPGF's V1 protocol. It allows to run a basic number lottery.
 
 ## Installation
 
