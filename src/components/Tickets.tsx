@@ -50,7 +50,7 @@ export function Tickets({ gameId }: { gameId: bigint }) {
       <p>
         <button
           type="button"
-          className="underline hover:no-underline"
+          className="underline underline-offset-2 hover:no-underline"
           onClick={() => open()}
         >
           Connect your wallet

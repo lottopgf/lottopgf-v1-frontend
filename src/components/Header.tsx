@@ -33,7 +33,10 @@ export function Header() {
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-center leading-tight">
             {isConnected && (
-              <Link href="/tickets" className="text-sm hover:underline">
+              <Link
+                href="/tickets"
+                className="text-sm underline-offset-2 hover:underline"
+              >
                 Your Tickets
               </Link>
             )}
