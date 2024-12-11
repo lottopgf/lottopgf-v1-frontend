@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -10,7 +11,7 @@ export function Footer() {
         className="inline-flex items-center gap-1 underline decoration-dotted underline-offset-2 hover:no-underline"
       >
         <span>LottoPGF V1</span>
-        <img src="/images/otto.svg" className="size-3.5" />
+        <Image src="/images/otto.svg" alt="Otto" width={14} height={14} />
       </Link>
     </footer>
   );

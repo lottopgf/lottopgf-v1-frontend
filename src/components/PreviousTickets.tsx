@@ -4,7 +4,6 @@ import { Tickets, TicketsSkeleton } from "@/components/Tickets";
 import { WinningNumbers } from "@/components/WinningNumbers";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,

@@ -87,7 +87,7 @@ export function RoundEndAlert({
                 },
               }
             : undefined,
-          description: ({ hash, numbers }) =>
+          description: ({ numbers }) =>
             numbers ? `The numbers are ${numbers.join(" ")}.` : undefined,
           error: "Error",
         },

@@ -20,7 +20,7 @@ import { useGameConfig } from "@/hooks/useGameConfig";
 import { getRandomPicks } from "@/lib/random";
 import { cn, isObjectEmpty } from "@/lib/utils";
 import { ErrorMessage } from "@hookform/error-message";
-import { DicesIcon, GiftIcon, Trash2Icon, WalletIcon } from "lucide-react";
+import { DicesIcon, GiftIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import {
   Controller,

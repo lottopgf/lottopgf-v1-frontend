@@ -559,7 +559,7 @@ function FundraiserCard({
           <span className="font-semibold text-foreground">
             <Amount value={balance ?? 0n} decimals={PRIZE_TOKEN_DECIMALS} />
           </span>{" "}
-          {!!targetAmount ? (
+          {targetAmount ? (
             <>
               of <Amount value={targetAmount} decimals={PRIZE_TOKEN_DECIMALS} />{" "}
               {PRIZE_TOKEN_TICKER}
