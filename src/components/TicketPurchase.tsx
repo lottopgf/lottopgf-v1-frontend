@@ -304,7 +304,7 @@ export function TicketPurchase({ onPurchase }: { onPurchase?: () => void }) {
                           decimals={PRIZE_TOKEN_DECIMALS}
                         />
                       </span>{" "}
-                      ETH raised
+                      {PRIZE_TOKEN_TICKER} raised
                     </p>
                   </div>
 
