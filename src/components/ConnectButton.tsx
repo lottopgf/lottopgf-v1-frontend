@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { formatAddress } from "@/lib/format";
 import { ensConfig } from "@/lib/wagmi";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useEnsName } from "wagmi";
 
 export default function ConnectButton() {
@@ -13,7 +13,7 @@ export default function ConnectButton() {
     chainId: ensConfig.chains.at(0)?.id,
     config: ensConfig,
   });
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
 
   if (isConnected) {
     return (

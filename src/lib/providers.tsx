@@ -1,13 +1,14 @@
 "use client";
 
-import { projectId, wagmiConfig } from "@/lib/wagmi";
+import { CHAIN, METADATA } from "@/config";
+import { projectId, wagmiAdapter } from "@/lib/wagmi";
+import { createAppKit } from "@reown/appkit/react";
 import {
   isServer,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { useTheme } from "next-themes";
 import { useLayoutEffect, type ReactNode } from "react";
 import { WagmiProvider, type State } from "wagmi";
@@ -15,13 +16,20 @@ import { hashFn } from "wagmi/query";
 
 if (!projectId) throw new Error("WalletConnect Project ID is not defined");
 
-const web3Modal = createWeb3Modal({
+const appKit = createAppKit({
+  adapters: [wagmiAdapter],
+  networks: [CHAIN],
   allowUnsupportedChain: false,
-  wagmiConfig,
   projectId,
-  enableAnalytics: false,
-  enableSwaps: false,
-  enableOnramp: false,
+  metadata: {
+    name: METADATA.name,
+    description: METADATA.description,
+    url: METADATA.url,
+    icons: [METADATA.icon],
+  },
+  features: {
+    analytics: false,
+  },
 });
 
 function makeQueryClient() {
@@ -60,12 +68,15 @@ export function Providers({
 
   useLayoutEffect(() => {
     if (resolvedTheme !== undefined) {
-      web3Modal.setThemeMode("dark" === resolvedTheme ? "dark" : "light");
+      appKit.setThemeMode("dark" === resolvedTheme ? "dark" : "light");
     }
   }, [resolvedTheme]);
 
   return (
-    <WagmiProvider config={wagmiConfig} initialState={initialState}>
+    <WagmiProvider
+      config={wagmiAdapter.wagmiConfig}
+      initialState={initialState}
+    >
       <QueryClientProvider client={queryClient}>
         {children}
         <ReactQueryDevtools initialIsOpen={false} />
