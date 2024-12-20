@@ -29,8 +29,6 @@ const appKit = createAppKit({
   },
   features: {
     analytics: false,
-    swaps: false,
-    onramp: false,
   },
 });
 
