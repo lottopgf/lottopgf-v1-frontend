@@ -5,7 +5,7 @@ import { METADATA } from "@/config";
 import "@/globals.css";
 import { Providers } from "@/lib/providers";
 import { cn } from "@/lib/utils";
-import { wagmiConfig } from "@/lib/wagmi";
+import { wagmiAdapter } from "@/lib/wagmi";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
@@ -27,7 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const initialState = cookieToInitialState(
-    wagmiConfig,
+    wagmiAdapter.wagmiConfig,
     (await headers()).get("cookie"),
   );
 
